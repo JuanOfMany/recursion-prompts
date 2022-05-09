@@ -97,45 +97,102 @@ var sumBelow = function(n) {
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
+
 var range = function(x, y) {
 
   var result = [];
 
-  var difference = Math.abs(y) - Math.abs(x)
+  var difference = Math.abs(y-x)
 
-  if (difference === 1 || difference === 0) {
-    return result;
-
+  if (difference === 1 || difference === 0 || difference === -1) {
+    return [];
   } else if (y - x > 1) {
     result.push(x + 1);
     return result.concat(range(x + 1, y));
   } else if (x - y > 1) {
-    result.push(y - 1);
-    return result.concat(range(x, y - 1));
+    result.push(x - 1);
+    return result.concat(range(x - 1, y));
   }
 };
+
 
 // 7. Compute the exponent of a number.
 // The exponent of a number says how many times the base number is used as a factor.
 // 8^2 = 8 x 8 = 64. Here, 8 is the base and 2 is the exponent.
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
+
 var exponent = function(base, exp) {
+
+  var runningProduct = 1;
+
+  if (exp === 0) {
+    return 1;
+  }
+
+  if (exp === 1) {
+    return base;
+  }
+
+  if (exp > 1) {
+    return runningProduct * base * exponent(base, exp - 1);
+  }
+
+  if (exp === -1) {
+    return 1/base;
+  }
+
+  if (exp < -1) {
+    return parseFloat(runningProduct/base * exponent(base, exp + 1).toFixed(4))
+  }
 };
+
 
 // 8. Determine if a number is a power of two.
 // powerOfTwo(1); // true
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  if (n === 2 || n === 1) {
+    return true;
+  }
+
+  if (n < 2 && n !==1) {
+    return false;
+  }
+
+  if (n > 2) {
+    return powerOfTwo(n/2);
+  }
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+
+  var reverseString = '';
+
+  var stringArr = string.split('')
+
+  if (stringArr.length === 0) {
+    return reverseString;
+  }
+
+  if (stringArr.length > 0) {
+    reverseString = reverseString + stringArr.pop();
+    return reverseString + reverse(stringArr.join(''));
+  }
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+
+  var lowerCase = string.toLowerCase();
+
+
+  if (lowerCase === reverse(lowerCase)) {
+    return true;
+  }
+
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
