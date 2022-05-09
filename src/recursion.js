@@ -7,31 +7,112 @@
 // Example: 5! = 5 x 4 x 3 x 2 x 1 = 120
 // factorial(5); // 120
 var factorial = function(n) {
+
+  var sum = 1;
+
+  if (n < 0) {
+    return null;
+  }
+
+  if(n === 0) {
+    return sum;
+  }
+
+  if (n > 0){
+    sum = sum * n * factorial(n - 1);
+    return sum;
+  }
 };
 
 // 2. Compute the sum of an array of integers.
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
+
+  var result = 0;
+
+  var arrayCopy = array.slice(0, array.length);
+
+  if (array.length < 1) {
+    return result;
+  }
+
+  if (arrayCopy.length > 0) {
+    result = result + arrayCopy.pop() + sum(arrayCopy);
+    return result;
+  }
 };
 
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
+
 var arraySum = function(array) {
+
+  var result = 0;
+
+  var arrayCopy = array.slice(0, array.length);
+
+  if (arrayCopy.length < 1) {
+    return result;
+  }
+
+  arrayCopy.forEach(function(element) {
+    if (typeof(element) === 'number') {
+      result = result + element;
+    } else if(typeof(element) === 'object') {
+      result = result + arraySum(element);
+    }
+  })
+  return result;
 };
 
 // 4. Check if a number is even.
 var isEven = function(n) {
+  if (n === 2 ) {
+    return true;
+  } else if (n === 1) {
+    return false;
+  } else {
+    return isEven(Math.abs(n-2));
+  }
 };
 
 // 5. Sum all integers below a given integer.
 // sumBelow(10); // 45
 // sumBelow(7); // 21
 var sumBelow = function(n) {
+
+  var sum = 0;
+  var sign = n/Math.abs(n);
+
+  if (n === 0) {
+    return sum;
+  }
+
+  if ( Math.abs(n) > 0) {
+    sum = sum + Math.abs(Math.abs(n)-1) + sumBelow(Math.abs(n) - 1);
+  }
+
+  return sum * sign;
 };
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
 var range = function(x, y) {
+
+  var result = [];
+
+  var difference = Math.abs(y) - Math.abs(x)
+
+  if (difference === 1 || difference === 0) {
+    return result;
+
+  } else if (y - x > 1) {
+    result.push(x + 1);
+    return result.concat(range(x + 1, y));
+  } else if (x - y > 1) {
+    result.push(y - 1);
+    return result.concat(range(x, y - 1));
+  }
 };
 
 // 7. Compute the exponent of a number.
