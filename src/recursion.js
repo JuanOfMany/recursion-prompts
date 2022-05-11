@@ -49,16 +49,17 @@ var arraySum = function(array) {
 
   var result = 0;
 
-  var arrayCopy = array.slice(0, array.length);
-
-  if (arrayCopy.length < 1) {
+  if (array.length < 1) {
     return result;
   }
 
-  arrayCopy.forEach(function(element) {
+  array.forEach(function(element) {
+
     if (typeof(element) === 'number') {
       result = result + element;
+
     } else if(typeof(element) === 'object') {
+
       result = result + arraySum(element);
     }
   })
@@ -184,15 +185,36 @@ var reverse = function(string) {
 };
 
 // 10. Write a function that determines if a string is a palindrome.
+//create reversed word
+//make both words into arrays
+//if no more letters left return true
+//if first letter equals last letter, check next letters
+  //check next letters by calling palindrome on string made by cutting of first and last letter?
+//if letters aren't equal, return false
+
 var palindrome = function(string) {
+//   var string = string.toLowerCase();
+//   if( string.length <= 1 )
+//   return true
+// // recursive case
+// return palindrome( string.slice( 1, -1 )) && string[ 0 ] === string.at( -1 );
+// };
 
   var lowerCase = string.toLowerCase();
 
+  var strArr = lowerCase.split('');
 
-  if (lowerCase === reverse(lowerCase)) {
+  if (string.length === 0) {
     return true;
-  }
+  };
 
+  if (strArr[0] !== strArr[strArr.length-1]) {
+    return false;
+  };
+
+  if (strArr[0] === strArr[strArr.length-1]) {
+    return palindrome((strArr.slice(1, strArr.length - 1)).join(''));
+  };
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -273,13 +295,53 @@ var countKeysInObj = function(obj, key) {
 // var obj = {'e':{'x':'y'},'t':{'r':{'e':'r'},'p':{'y':'r'}},'y':'e'};
 // countValuesInObj(obj, 'r') // 2
 // countValuesInObj(obj, 'e') // 1
+
+//make an accumulator
+//if obj is an obj
+  //for each element call countValuesInObj
+//if obj is not an obj
+  //if obj === value
+    // return += accumulator
+
 var countValuesInObj = function(obj, value) {
+  var count = 0;
+
+  if (typeof(obj) === 'object') {
+    for (keys in obj) {
+      count += countValuesInObj(obj[keys], value)
+    }
+  }
+
+  if (obj === value) {
+    count = count + 1;
+    return count;
+  }
+  return count;
 };
 
 // 24. Find all keys in an object (and nested objects) by a provided name and rename
 // them to a provided new name while preserving the value stored at that key.
+//if obj is an obj
+  //for each key in obj
+
+  //if current key === old key
+  //make new key:value with newKey
+  //delete old key:value
+
 var replaceKeysInObj = function(obj, oldKey, newKey) {
-};
+
+  for (key in obj) {
+    if (key === oldKey) {
+      console.log('found a match!')
+      obj[newKey] = obj[key];
+      delete obj[key];
+    }
+    if (typeof(obj[key]) === 'object') {
+      replaceKeysInObj(obj[key], oldKey, newKey);
+    }
+
+  } return obj;
+}
 
 // 25. Get the first n Fibonacci numbers. In the Fibonacci sequence, each subsequent
 // number is the sum of the previous two.
